@@ -15,8 +15,6 @@ website:
       - text: Project
         href: danl_proj_nba.ipynb
       - text: Python Data Analysis
-        href: pandas_basic.ipynb
-        href: seaborn_basic.ipynb
       
             
   page-footer: 
