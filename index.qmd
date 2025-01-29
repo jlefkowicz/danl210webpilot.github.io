@@ -2,7 +2,7 @@
 title: "Josh Lefkowicz" 
 about:
   template: trestles  # jolla  trestles  solana  marquee  broadside
-  image: img/profile.png
+  image: img/pfp.png
   image-width: 16em
   image-shape: rounded # rectangle  round  rounded
   
