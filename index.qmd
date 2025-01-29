@@ -1,5 +1,5 @@
 ---
-title: "YOUR NAME" 
+title: "Josh Lefkowicz" 
 about:
   template: trestles  # jolla  trestles  solana  marquee  broadside
   image: img/profile.png
@@ -27,7 +27,7 @@ about:
 ---
 
 
-Finley Malloc majors in Data Analytics at SUNY Geneseo. When not working on data analytics, Finley enjoys spending time unicycling and playing with her pet iguana.
+Sophomore pursuing a B.S. in Biology with a minor in Data Analytics at SUNY Geneseo.
 
 ## Education
 

@@ -3,16 +3,18 @@ project:
   output-dir: "." 
 
 website:
-  title: "YOUR NAME"
+  title: "Josh Lefkowicz"
   navbar:
     # background: "#1c4982"
     pinned: true
     left:
       - text: Blog
         href: blog-listing.qmd
+      - text: Python Basic
+        href: danl-210-python-basic.ipynb
             
   page-footer: 
-    center: "Powered with GitHub, Quarto, and Jupyter Notebook<br>© YOUR NAME, 2025"
+    center: "Powered with GitHub, Quarto, and Jupyter Notebook<br>© Josh Lefkowicz, 2025"
 
 format:
   html:
