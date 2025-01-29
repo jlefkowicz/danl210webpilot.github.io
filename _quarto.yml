@@ -12,6 +12,12 @@ website:
         href: blog-listing.qmd
       - text: Python Basic
         href: danl-210-python-basic.ipynb
+      - text: Project
+        href: danl_proj_nba.ipynb
+      - text: Python Data Analysis
+        href: pandas_basic.ipynb
+        href: seaborn_basic.ipynb
+      
             
   page-footer: 
     center: "Powered with GitHub, Quarto, and Jupyter Notebook<br>© Josh Lefkowicz, 2025"
