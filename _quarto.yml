@@ -15,6 +15,11 @@ website:
       - text: Project
         href: danl_proj_nba.ipynb
       - text: Python Data Analysis
+        menu: 
+          - text: Pandas
+            href: pandas_basic.ipynb
+          - text: Seaborn
+            href: seaborn_basic.ipynb
       
             
   page-footer: 
@@ -30,4 +35,3 @@ format:
     css: styles.css
     toc: false
     include-after-body: target_blank.html
-
