@@ -11,15 +11,15 @@ website:
       - text: Blog
         href: blog-listing.qmd
       - text: Python Basic
-        href: danl-210-python-basic.ipynb
+        href: notebooks/danl-210-python-basic.ipynb
       - text: Project
-        href: danl_proj_nba.ipynb
+        href: notebooks/danl_proj_nba.ipynb
       - text: Python Data Analysis
         menu: 
           - text: Pandas
-            href: pandas_basic.ipynb
+            href: notebooks/pandas_basic.ipynb
           - text: Seaborn
-            href: seaborn_basic.ipynb
+            href: notebooks/seaborn_basic.ipynb
       
             
   page-footer: 
