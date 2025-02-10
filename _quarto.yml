@@ -17,9 +17,9 @@ website:
       - text: Python Data Analysis
         menu: 
           - text: Pandas
-            href: pandas_basic.ipynb
+            href: notebooks/pandas_basic.ipynb
           - text: Seaborn
-            href: seaborn_basic.ipynb
+            href: notebooks/seaborn_basic.ipynb
       
             
   page-footer: 
