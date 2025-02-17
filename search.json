@@ -98,6 +98,13 @@
     "text": "This is a post with executable code with no space in the folder name.\n\n1 + 1\n\n[1] 2"
   },
   {
+    "objectID": "posts/python basics/pythodbasics.html",
+    "href": "posts/python basics/pythodbasics.html",
+    "title": "Python Basics",
+    "section": "",
+    "text": "In lectures 4 & 5, and Classwork 4 we went over some of the basics when it comes to using python. We learned how to assign variables and create lists. Basic math functions were discussed too. We also introduced using while & for loops, and how break and else commands can be utilized to modify these loops. We introduces how to import the pandas library as well."
+  },
+  {
     "objectID": "posts/starwars/starwars_df.html",
     "href": "posts/starwars/starwars_df.html",
     "title": "Starwars",
@@ -186,6 +193,6 @@
     "href": "blog-listing.html",
     "title": "Insightful Analytics",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nStarwars\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYour Name\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n\n1 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nPython Basics\n\n\n\n\n\n\n\n\nFeb 14, 2025\n\n\nJosh Lefkowicz\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\n\nStarwars\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYour Name\n\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n\n1 min\n\n\n\n\n\n\nNo matching items"
   }
 ]

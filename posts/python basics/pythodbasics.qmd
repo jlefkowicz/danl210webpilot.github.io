@@ -1,0 +1,10 @@
+---
+title: Python Basics
+author: Josh Lefkowicz
+date: 2025-02-14
+categories: [tag_1, tag_2, tag_3]
+image: "pythonpic.png"
+
+toc: true
+---
+In lectures 4 & 5, and Classwork 4 we went over some of the basics when it comes to using python. We learned how to assign variables and create lists. Basic math functions were discussed too. We also introduced using `while` & `for` loops, and how `break` and `else` commands can be utilized to modify these loops. We introduces how to import the pandas library as well. 

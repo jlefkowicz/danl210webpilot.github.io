@@ -13,7 +13,7 @@ website:
       - text: Python Basic
         href: danl-210-python-basic.ipynb
       - text: Project
-        href: danl_poj_nba.ipynb
+        href: danl_proj_nba.ipynb
       - text: Python Data Analysis
         menu: 
           - text: Pandas
