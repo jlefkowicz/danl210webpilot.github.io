@@ -179,7 +179,7 @@
     "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#average-rating-after-2005",
     "title": "Xmas Movie Analysis",
     "section": "average rating after 2005",
-    "text": "average rating after 2005\n\navgnew = df[df['year'] &gt;= 2005]\navgnew['average_rating'].mean()\n\nnp.float64(5.965655339805825)\n\n\n\navgold = df[df['year'] &lt;= 2005]\navgold['average_rating'].mean()\n\nnp.float64(6.335518292682926)"
+    "text": "average rating after 2005\n\navgnew = df[df['year'] &gt;= 2005]\navgnew['average_rating'].mean()\n\nnp.float64(5.965655339805825)\n\n\n\navgold = df[df['year'] &lt;= 2005]\navgold['average_rating'].mean()\n\nnp.float64(6.335518292682926)\n\n\nprint (“Hello Josh”)"
   },
   {
     "objectID": "posts/starwars/starwars_df.html",
