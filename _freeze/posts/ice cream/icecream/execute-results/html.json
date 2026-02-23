@@ -1,0 +1,15 @@
+{
+  "hash": "9046e4badb6a0702c14de3a5fedc48dc",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Ben & Jerry's Ice Cream\nauthor: Josh Lefkowicz\ndate: 2026-02-19\ncategories: [icecream, code, analysis]\nimage: icecream.png\n\nexecute: \n  warning: false\n  message: false\n  \ntoc: true\n---\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
