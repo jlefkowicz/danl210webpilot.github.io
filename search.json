@@ -270,6 +270,20 @@
     "href": "blog-listing.html",
     "title": "Insightful Analytics",
     "section": "",
-    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Author\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nBen & Jerry’s Ice Cream\n\n\n\n\n\nFeb 19, 2026\n\n\nJosh Lefkowicz\n\n2 min\n\n\n\n\n\n\n\n\n\n\n\nXmas Movie Analysis\n\n\n\n\n\nApr 9, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nSpotify Analysis\n\n\n\n\n\nMar 2, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nPython Basics\n\n\n\n\n\nFeb 14, 2025\n\n\nJosh Lefkowicz\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nStarwars\n\n\n\n\n\nJan 22, 2025\n\n\nYour Name\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\nNo matching items"
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Author\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nBen & Jerry’s Ice Cream\n\n\n\n\n\nFeb 19, 2026\n\n\nJosh Lefkowicz\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nXmas Movie Analysis\n\n\n\n\n\nApr 9, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nSpotify Analysis\n\n\n\n\n\nMar 2, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nPython Basics\n\n\n\n\n\nFeb 14, 2025\n\n\nJosh Lefkowicz\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nStarwars\n\n\n\n\n\nJan 22, 2025\n\n\nYour Name\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/ice cream/icecream.html",
+    "href": "posts/ice cream/icecream.html",
+    "title": "Ben & Jerry’s Ice Cream",
+    "section": "",
+    "text": "ice_cream &lt;- read_csv(\"https://bcdanl.github.io/data/ben-and-jerry-cleaned.csv\")\nLet’s analyze the ice_cream data:\nrmarkdown::paged_table(ice_cream)"
+  },
+  {
+    "objectID": "posts/ice cream/icecream.html#analysis",
+    "href": "posts/ice cream/icecream.html#analysis",
+    "title": "Ben & Jerry’s Ice Cream",
+    "section": "Analysis",
+    "text": "Analysis\n\nFigures\n\ntop10 &lt;- ice_cream %&gt;% \n  count(flavor_descr) %&gt;% \n  arrange(desc(n)) %&gt;% \n  head(10)\n\ntop10_full &lt;- ice_cream %&gt;% \n  filter(flavor_descr %in% top10$flavor_descr)\n\nggplot(data = top10_full,\n       mapping = aes(x = flavor_descr, y = priceper1, fill = flavor_descr))+\n  geom_boxplot()+\n  scale_y_continuous(labels = scales::dollar_format())+\n  labs(\n    title = \"Price Distribution of the Top 10 flavors\",\n    x = \"Flavor\",\n    y = \"price\"\n  ) +\n   theme(\n    axis.text.x = element_text(angle = 45, hjust = 1),\n    axis.title.y = element_text(angle = 90)\n  ) + \n  scale_fill_brewer(palette = \"Dark2\") +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\n\nInterpretation\nThis figure shows boxplots of the prices paid for each of the most popular flavors in the ice_cream data.frame. All show median prices that are approximately equal. Additionally, all show very similar varriances in pricing, as their IQR’s and overall ranges are near equal.\ngapminder |&gt; filter(year == 2007) |&gt; ggplot(aes(gdpPercap, lifeExp, color = continent)) + geom_point(size = 3, alpha = 0.9) + scale_x_log10(labels = scales::dollar) + labs( title = “Life expectancy vs GDP per capita (2007)”, subtitle = “Log x-axis; color = continent”, x = “GDP per capita (log scale)”, y = “Life expectancy”, color = “Continent”, caption = “Source: gapminder” ) + theme( legend.position = “top”, plot.title = element_text(face = “bold”), panel.grid.minor = element_blank() )"
   }
 ]
