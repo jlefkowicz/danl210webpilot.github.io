@@ -442,6 +442,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="interpretation" class="level4">
 <h4 class="anchored" data-anchor-id="interpretation">Interpretation</h4>
 <p>This figure shows boxplots of the prices paid for each of the most popular flavors in the <code>ice_cream</code> data.frame. All show median prices that are approximately equal. Additionally, all show very similar varriances in pricing, as their IQR’s and overall ranges are near equal.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> ice_cream,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> region))<span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">fill =</span> race), <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_tableau</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Race Proportions by Region"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Region"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="icecream_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretation-1" class="level4">
+<h4 class="anchored" data-anchor-id="interpretation-1">Interpretation</h4>
+<p>This figure analyzes the distribution of <code>race</code> on the basis of <code>region</code>. As seen, race status of <code>white</code> dominates across all regions. Regions with notable minority populations would be <code>South</code>, as it possesses the highest proportion of <code>black</code> race observations, as well as <code>West</code>, as it possesses the highest proportions of both <code>other</code> and <code>asian</code> observations. These proportions, although derived from a data.frame about ice cream sales, speak to historical population dynamics in America.</p>
 <p>gapminder |&gt; filter(year == 2007) |&gt; ggplot(aes(gdpPercap, lifeExp, color = continent)) + geom_point(size = 3, alpha = 0.9) + scale_x_log10(labels = scales::dollar) + labs( title = “Life expectancy vs GDP per capita (2007)”, subtitle = “Log x-axis; color = continent”, x = “GDP per capita (log scale)”, y = “Life expectancy”, color = “Continent”, caption = “Source: gapminder” ) + theme( legend.position = “top”, plot.title = element_text(face = “bold”), panel.grid.minor = element_blank() )</p>
 
 

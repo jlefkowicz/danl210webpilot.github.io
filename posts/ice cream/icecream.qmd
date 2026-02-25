@@ -81,9 +81,21 @@ ggplot(data = top10_full,
 This figure shows boxplots of the prices paid for each of the most popular flavors in the `ice_cream` data.frame. All show median prices that are approximately equal. Additionally, all show very similar varriances in pricing, as their IQR's and overall ranges are near equal. 
 
 ```{r}
-
+ggplot(data = ice_cream,
+       mapping = aes(x = region))+
+  geom_bar(mapping = aes(fill = race), position = "fill") +
+  scale_color_tableau() +
+  labs(
+    title = "Race Proportions by Region",
+    y = "Proportion",
+    x = "Region"
+  ) +
+  theme(
+    axis.title.y = element_text(angle = 90)
+  )
 ```
-
+#### Interpretation
+This figure analyzes the distribution of `race` on the basis of `region`. As seen, race status of `white` dominates across all regions. Regions with notable minority populations would be `South`, as it possesses the highest proportion of `black` race observations, as well as `West`, as it possesses the highest proportions of both `other` and `asian` observations. These proportions, although derived from a data.frame about ice cream sales, speak to historical population dynamics in America.
 
 
 gapminder |>
