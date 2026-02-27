@@ -142,12 +142,45 @@ ggplot(data = ice_cream,
 #### Interpretation
 This figure shows the distribution of `household_size` across `race`, with y axis appropriately scaled for comparisons between races. The `other` category has the least-skewed distribution with regard to `household_size`, followed by `asian` households. `black` and `white` households show very similar distribution patterns, despite a much larger sample size for the `white` category. All races are right-skewed to some extent. 
 
+## Summary Table Analysis
+
+### Question: Is `household_income` for each `region` influenced by the `race` distrubtion with each `region`?
+
+```{r}
+df2 <- ice_cream %>% 
+  group_by(race) %>% 
+  summarise(mean_inc = mean(household_income))
+
+rmarkdown::paged_table(df2)
+```
+Lowest income `race` is `asian`, going off a grouped mean calculation for each race.
 
 
+```{r}
+df3 <- ice_cream %>% 
+  group_by(region) %>% 
+  summarise(mean_inc = mean(household_income))
 
+rmarkdown::paged_table(df3)
 
+```
 
+The lowest income `region` is `East`, going off a grouped mean calculation for each region. 
 
+```{r}
+df1 <- ice_cream %>% 
+  group_by(race, region) %>% 
+  summarise(n = n())%>% 
+  ungroup() %>% 
+  group_by(race) %>% 
+  slice_max(order_by = n, n = 1)
+
+rmarkdown::paged_table(df1) 
+```
+This table shows where each `race` is found most frequently. 
+
+#### Interpretation
+The lowest income race in this `data.frame` is `asian`, and the lowest income `region` is `East`. The `region` in which the asian race is found most commonly is within the `West`. According to this data, it could be inferred that the low relative income seen in the `East` is not caused by low relative income seen in the demographics that dominate the region, nor is causing poverty disproportionately amongst certain races. 
 
 
 
