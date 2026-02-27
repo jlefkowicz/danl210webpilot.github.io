@@ -47,11 +47,12 @@ Let's analyze the `ice_cream` data:
 rmarkdown::paged_table(ice_cream) 
 ```
 
-## Analysis
+## `ggplot` Analysis
 
 ### Figures
 
 ```{r}
+#| warning: false
 top10 <- ice_cream %>% 
   count(flavor_descr) %>% 
   arrange(desc(n)) %>% 
@@ -92,32 +93,54 @@ ggplot(data = ice_cream,
   ) +
   theme(
     axis.title.y = element_text(angle = 90)
-  )
+  ) +
+  theme_calc()
 ```
 #### Interpretation
 This figure analyzes the distribution of `race` on the basis of `region`. As seen, race status of `white` dominates across all regions. Regions with notable minority populations would be `South`, as it possesses the highest proportion of `black` race observations, as well as `West`, as it possesses the highest proportions of both `other` and `asian` observations. These proportions, although derived from a data.frame about ice cream sales, speak to historical population dynamics in America.
 
-
-gapminder |>
-  filter(year == 2007) |>
-  ggplot(aes(gdpPercap, lifeExp, 
-             color = continent)) +
-  geom_point(size = 3, alpha = 0.9) +
-  scale_x_log10(labels = scales::dollar) +
-  labs(
-    title = "Life expectancy vs GDP per capita (2007)",
-    subtitle = "Log x-axis; color = continent",
-    x = "GDP per capita (log scale)",
-    y = "Life expectancy",
-    color = "Continent",
-    caption = "Source: gapminder"
-  ) +
+```{r}
+ggplot(data = ice_cream,
+       mapping = aes( x = married,
+                      y = household_income,
+                      fill = race)) +
+         geom_boxplot()+
+  scale_y_continuous(labels = scales::dollar_format())+
   theme(
-    legend.position = "top",
-    plot.title = element_text(face = "bold"),
-    panel.grid.minor = element_blank()
-  )
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title.y = element_text(angle = 90)
+  ) + 
+  labs(
+    y = "Household Income",
+    x = "Married Status",
+    title = "Household Income by Race and Married Status"
+  )+
+  scale_fill_brewer(palette = "Dark2") +
+  facet_grid(~race) +
+  theme_calc()
+```
+#### Interpretation
+This figure shows how household income varies across `married` and `race`. Across all races, a married status of `FALSE` tends to have a higher income. Additionally, the race status of `asian` seems to have a significantly lower value for both married and non-married status. 
 
+```{r}
+ggplot(data = ice_cream,
+       mapping = aes( x = household_size)
+       )+
+  geom_histogram(binwidth = 1,
+                 fill = "lightblue")+
+  facet_wrap(~race,
+             scales = "free_y")+
+  labs(
+    x = "Household Size",
+    y = "Count",
+    title = "Distribution of Household Size by Race")+
+    theme(
+    axis.title.y = element_text(angle = 90)
+  ) +
+  theme_calc()
+```
+#### Interpretation
+This figure shows the distribution of `household_size` across `race`, with y axis appropriately scaled for comparisons between races. The `other` category has the least-skewed distribution with regard to `household_size`, followed by `asian` households. `black` and `white` households show very similar distribution patterns, despite a much larger sample size for the `white` category. All races are right-skewed to some extent. 
 
 
 
