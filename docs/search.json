@@ -1,0 +1,296 @@
+[
+  {
+    "objectID": "danl_proj_nba.html#salary-distribution-among-teams",
+    "href": "danl_proj_nba.html#salary-distribution-among-teams",
+    "title": "Data Analysis Project",
+    "section": "Salary Distribution Among Teams",
+    "text": "Salary Distribution Among Teams\nLet’s start with the salary distribution among teams using seaborn for visualization. ​​\n\n\n# Handle missing values in 'Salary' by replacing them with the median salary\nmedian_salary = nba['Salary'].median()\nnba['Salary'].fillna(median_salary, inplace=True)\n\n/var/folders/_m/d6jf0jhd2zzdfd5kzdhl_24w0000gn/T/ipykernel_79892/1671011424.py:3: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.\nThe behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.\n\nFor example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.\n\n\n  nba['Salary'].fillna(median_salary, inplace=True)\n\n\n\n# Set the aesthetic style of the plots\nsns.set_style(\"whitegrid\")\n\n# Calculate total salary by team\nteam_salary = (\n    nba\n    .groupby('Team')['Salary']\n    .sum()\n    .reset_index()\n    .sort_values(by='Salary', ascending=False)\n)\n\n# Plot total salary by team\nplt.figure(figsize=(10, 16))\nsns.barplot(data = team_salary,\n            x = 'Salary', y = 'Team',\n            palette = 'coolwarm')\nplt.title('Total Salary Distribution Among NBA Teams')\nplt.xlabel('Total Salary')\nplt.ylabel('Team')\nplt.xticks(rotation=45)\nplt.show()\n\n\n\n\n\n\n\n\nThe visualization above displays the total salary distribution among NBA teams, with teams sorted by their total salary expenditure. This bar plot reveals which teams are the biggest spenders on player salaries and which are more conservative. The color gradient provides a visual cue to easily distinguish between the higher and lower spending teams.\nNotice that Portland Trail Blazers has the highest total salary followed by Golden State Warriors and Philadelphia 76ers, and Memphis Grizzlies has the lowest total salary."
+  },
+  {
+    "objectID": "danl_proj_nba.html#player-age-distribution",
+    "href": "danl_proj_nba.html#player-age-distribution",
+    "title": "Data Analysis Project",
+    "section": "Player Age Distribution",
+    "text": "Player Age Distribution\nNext, let’s explore the Player Age Distribution across the NBA. We’ll create a histogram to visualize how player ages are distributed, which will help us understand if the league trends younger, older, or has a balanced age mix. ​​\n\n# Convert 'Birthday' column to datetime format\nfrom dateutil import parser\n# nba['Birthday'] = nba['Birthday'].apply(lambda x: parser.parse(x))\n\n# Now, let's calculate the age of each player\n# nba['Age'] = (datetime.now() - nba['Birthday']).dt.days // 365\n\n# Plot the age distribution of NBA players\nplt.figure(figsize=(10, 6))\nsns.histplot(nba['Age'],\n             bins = 15,\n             kde = True,\n             color = 'skyblue')\nplt.title('Age Distribution of NBA Players')\nplt.xlabel('Age')\nplt.ylabel('Count')\nplt.show()\n\n\n/Users/bchoe/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.\n  with pd.option_context('mode.use_inf_as_na', True):\n\n\n\n\n\n\n\n\n\nThe histogram above shows the age distribution of NBA players, with a kernel density estimate (KDE) overlay to indicate the distribution shape. The plot helps identify the common ages for NBA players and whether there are significant numbers of very young or older players.\nNotice that the majority of players fall within an age range from 24 to 34. There are few players whose age is above 40."
+  },
+  {
+    "objectID": "danl_proj_nba.html#position-wise-salary-insights",
+    "href": "danl_proj_nba.html#position-wise-salary-insights",
+    "title": "Data Analysis Project",
+    "section": "Position-wise Salary Insights",
+    "text": "Position-wise Salary Insights\nMoving on to Position-wise Salary Insights, we’ll examine how average salaries differ across player positions. This analysis could reveal which positions are typically higher-paid, potentially reflecting their value on the basketball court. Let’s create a box plot to visualize the salary distribution for each position. ​​\n\n# Plot salary distribution by player position\nplt.figure(figsize=(10, 6))\nsns.boxplot(data = nba,\n            x = 'Position', y = 'Salary',\n            palette = 'Set2')\nplt.title('Salary Distribution by Position')\nplt.xlabel('Position')\nplt.ylabel('Salary')\nplt.show()\n\n\n\n\n\n\n\n\nThe box plot above illustrates the salary distribution by player position, showcasing the variation in salaries among different positions within the NBA. PG-SG has the highest median salary."
+  },
+  {
+    "objectID": "danl_proj_nba.html#top-10-highest-paid-players",
+    "href": "danl_proj_nba.html#top-10-highest-paid-players",
+    "title": "Data Analysis Project",
+    "section": "Top 10 Highest Paid Players",
+    "text": "Top 10 Highest Paid Players\nLastly, we’ll identify the Top 10 Highest Paid Players in the NBA. Let’s visualize this information.\n\n# Identify the top 10 highest paid players\ntop_10_salaries = nba.sort_values(by='Salary', ascending=False).head(10)\n\n# Plot the top 10 highest paid players\nplt.figure(figsize=(12, 8))\nsns.barplot(data = top_10_salaries,\n            x = 'Salary', y = 'PlayerName',\n            palette = 'viridis')\nplt.title('Top 10 Highest Paid NBA Players')\nplt.xlabel('Salary')\nplt.ylabel('Player')\nplt.show()\n\n\n\n\n\n\n\n\nThe bar plot above reveals the top 10 highest-paid NBA players, showcasing those who stand at the pinnacle of the league in terms of salary. This visualization not only highlights the star players who command the highest salaries but also may reflect their marketability, performance, and contribution to their respective teams."
+  },
+  {
+    "objectID": "pandas_basics.html#creating-a-series",
+    "href": "pandas_basics.html#creating-a-series",
+    "title": "Pandas Basics",
+    "section": "Creating a Series",
+    "text": "Creating a Series\n\n\n# Creating a Series from a list\ndata = [10, 20, 30, 40, 50]\nseries = pd.Series(data)\nseries\n\n\n\n\n\n\n\n\n0\n\n\n\n\n0\n10\n\n\n1\n20\n\n\n2\n30\n\n\n3\n40\n\n\n4\n50\n\n\n\n\ndtype: int64"
+  },
+  {
+    "objectID": "pandas_basics.html#creating-a-dataframe",
+    "href": "pandas_basics.html#creating-a-dataframe",
+    "title": "Pandas Basics",
+    "section": "Creating a DataFrame",
+    "text": "Creating a DataFrame\n\n\n# Creating a DataFrame from a dictionary\ndata = {\n    \"Name\": [\"Alice\", \"Bob\", \"Charlie\"],\n    \"Age\": [25, 30, 35],\n    \"City\": [\"New York\", \"Los Angeles\", \"Chicago\"]\n}\ndf = pd.DataFrame(data)\ndf\n\n\n    \n\n\n\n\n\n\nName\nAge\nCity\n\n\n\n\n0\nAlice\n25\nNew York\n\n\n1\nBob\n30\nLos Angeles\n\n\n2\nCharlie\n35\nChicago"
+  },
+  {
+    "objectID": "pandas_basics.html#exploring-data",
+    "href": "pandas_basics.html#exploring-data",
+    "title": "Pandas Basics",
+    "section": "Exploring Data",
+    "text": "Exploring Data\n\n\n# Display the first few rows\ndf.head()\n\n# Display the shape of the DataFrame\nprint(\"Shape:\", df.shape)\n\n# Display summary statistics\ndf.describe()\n\nShape: (3, 3)\n\n\n\n    \n\n\n\n\n\n\nAge\n\n\n\n\ncount\n3.0\n\n\nmean\n30.0\n\n\nstd\n5.0\n\n\nmin\n25.0\n\n\n25%\n27.5\n\n\n50%\n30.0\n\n\n75%\n32.5\n\n\nmax\n35.0"
+  },
+  {
+    "objectID": "pandas_basics.html#selecting-data",
+    "href": "pandas_basics.html#selecting-data",
+    "title": "Pandas Basics",
+    "section": "Selecting Data",
+    "text": "Selecting Data\n\n# Selecting a single column\ndf[\"Name\"]\n\n\n\n\n\n\n\n\nName\n\n\n\n\n0\nAlice\n\n\n1\nBob\n\n\n2\nCharlie\n\n\n\n\ndtype: object\n\n\n\n# Selecting multiple columns\ndf[[\"Name\", \"City\"]]\n\n\n    \n\n\n\n\n\n\nName\nCity\n\n\n\n\n0\nAlice\nNew York\n\n\n1\nBob\nLos Angeles\n\n\n2\nCharlie\nChicago\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n    \n  \n\n\n\n# Selecting rows by index\ndf.iloc[0]\n\n\n\n\n\n\n\n\n0\n\n\n\n\nName\nAlice\n\n\nAge\n25\n\n\nCity\nNew York\n\n\n\n\ndtype: object"
+  },
+  {
+    "objectID": "pandas_basics.html#filtering-data",
+    "href": "pandas_basics.html#filtering-data",
+    "title": "Pandas Basics",
+    "section": "Filtering Data",
+    "text": "Filtering Data\n\n# Filtering rows where Age is greater than 25\nfiltered_df = df[df[\"Age\"] &gt; 25]\nfiltered_df\n\n\n    \n\n\n\n\n\n\nName\nAge\nCity\n\n\n\n\n1\nBob\n30\nLos Angeles\n\n\n2\nCharlie\n35\nChicago"
+  },
+  {
+    "objectID": "pandas_basics.html#adding-a-new-column",
+    "href": "pandas_basics.html#adding-a-new-column",
+    "title": "Pandas Basics",
+    "section": "Adding a New Column",
+    "text": "Adding a New Column\n\n\n# Adding a new column\ndf[\"Salary\"] = [50000, 60000, 70000]\ndf\n\n\n    \n\n\n\n\n\n\nName\nAge\nCity\nSalary\n\n\n\n\n0\nAlice\n25\nNew York\n50000\n\n\n1\nBob\n30\nLos Angeles\n60000\n\n\n2\nCharlie\n35\nChicago\n70000\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\n    ## Conclusion\n\n    This notebook covers the basic operations of pandas. You can explore more advanced features like merging,\n    joining, and working with time series data in pandas documentation: https://pandas.pydata.org/docs/"
+  },
+  {
+    "objectID": "Untitled0.html",
+    "href": "Untitled0.html",
+    "title": "Habits",
+    "section": "",
+    "text": "a = \"A\""
+  },
+  {
+    "objectID": "seaborn_basics.html",
+    "href": "seaborn_basics.html",
+    "title": "Seaborn Example",
+    "section": "",
+    "text": "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n# Sample data\ndata = {\n    'Category': ['A', 'B', 'C', 'D'],\n    'Values': [23, 45, 56, 78]\n}\ndf = pd.DataFrame(data)\n\n# Create a barplot\nsns.set(style=\"whitegrid\")  # Optional: Set a clean grid style\nplt.figure(figsize=(8, 6))  # Set the figure size\nsns.barplot(data=df, x='Category', y='Values', palette='viridis')\n\n# Customize the plot\nplt.title(\"Bar Plot Example\", fontsize=16)\nplt.xlabel(\"Category\", fontsize=12)\nplt.ylabel(\"Values\", fontsize=12)\n\n# Show the plot\nplt.show()\n\nFutureWarning: \n\nPassing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.\n\n  sns.barplot(data=df, x='Category', y='Values', palette='viridis')"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/ice cream/icecream.html",
+    "href": "posts/ice cream/icecream.html",
+    "title": "Ben & Jerry’s Ice Cream",
+    "section": "",
+    "text": "ice_cream &lt;- read_csv(\"https://bcdanl.github.io/data/ben-and-jerry-cleaned.csv\")\nLet’s analyze the ice_cream data:\nrmarkdown::paged_table(ice_cream)"
+  },
+  {
+    "objectID": "posts/ice cream/icecream.html#ggplot-analysis",
+    "href": "posts/ice cream/icecream.html#ggplot-analysis",
+    "title": "Ben & Jerry’s Ice Cream",
+    "section": "ggplot Analysis",
+    "text": "ggplot Analysis\n\nFigures\n\ntop10 &lt;- ice_cream %&gt;% \n  count(flavor_descr) %&gt;% \n  arrange(desc(n)) %&gt;% \n  head(10)\n\ntop10_full &lt;- ice_cream %&gt;% \n  filter(flavor_descr %in% top10$flavor_descr)\n\nggplot(data = top10_full,\n       mapping = aes(x = flavor_descr, y = priceper1, fill = flavor_descr))+\n  geom_boxplot()+\n  scale_y_continuous(labels = scales::dollar_format())+\n  labs(\n    title = \"Price Distribution of the Top 10 flavors\",\n    x = \"Flavor\",\n    y = \"price\"\n  ) +\n   theme(\n    axis.text.x = element_text(angle = 45, hjust = 1),\n    axis.title.y = element_text(angle = 90)\n  ) + \n  scale_fill_brewer(palette = \"Dark2\") +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\n\n\nInterpretation\nThis figure shows boxplots of the prices paid for each of the most popular flavors in the ice_cream data.frame. All show median prices that are approximately equal. Additionally, all show very similar varriances in pricing, as their IQR’s and overall ranges are near equal.\n\nggplot(data = ice_cream,\n       mapping = aes(x = region))+\n  geom_bar(mapping = aes(fill = race), position = \"fill\") +\n  scale_color_tableau() +\n  labs(\n    title = \"Race Proportions by Region\",\n    y = \"Proportion\",\n    x = \"Region\"\n  ) +\n  theme(\n    axis.title.y = element_text(angle = 90)\n  ) +\n  theme_calc()\n\n\n\n\n\n\n\n\n\n\nInterpretation\nThis figure analyzes the distribution of race on the basis of region. As seen, race status of white dominates across all regions. Regions with notable minority populations would be South, as it possesses the highest proportion of black race observations, as well as West, as it possesses the highest proportions of both other and asian observations. These proportions, although derived from a data.frame about ice cream sales, speak to historical population dynamics in America.\n\nggplot(data = ice_cream,\n       mapping = aes( x = married,\n                      y = household_income,\n                      fill = race)) +\n         geom_boxplot()+\n  scale_y_continuous(labels = scales::dollar_format())+\n  theme(\n    axis.text.x = element_text(angle = 45, hjust = 1),\n    axis.title.y = element_text(angle = 90)\n  ) + \n  labs(\n    y = \"Household Income\",\n    x = \"Married Status\",\n    title = \"Household Income by Race and Married Status\"\n  )+\n  scale_fill_brewer(palette = \"Dark2\") +\n  facet_grid(~race) +\n  theme_calc()\n\n\n\n\n\n\n\n\n\n\nInterpretation\nThis figure shows how household income varies across married and race. Across all races, a married status of FALSE tends to have a higher income. Additionally, the race status of asian seems to have a significantly lower value for both married and non-married status.\n\nggplot(data = ice_cream,\n       mapping = aes( x = household_size)\n       )+\n  geom_histogram(binwidth = 1,\n                 fill = \"lightblue\")+\n  facet_wrap(~race,\n             scales = \"free_y\")+\n  labs(\n    x = \"Household Size\",\n    y = \"Count\",\n    title = \"Distribution of Household Size by Race\")+\n    theme(\n    axis.title.y = element_text(angle = 90)\n  ) +\n  theme_calc()\n\n\n\n\n\n\n\n\n\n\nInterpretation\nThis figure shows the distribution of household_size across race, with y axis appropriately scaled for comparisons between races. The other category has the least-skewed distribution with regard to household_size, followed by asian households. black and white households show very similar distribution patterns, despite a much larger sample size for the white category. All races are right-skewed to some extent."
+  },
+  {
+    "objectID": "posts/ice cream/icecream.html#summary-table-analysis",
+    "href": "posts/ice cream/icecream.html#summary-table-analysis",
+    "title": "Ben & Jerry’s Ice Cream",
+    "section": "Summary Table Analysis",
+    "text": "Summary Table Analysis\n\nQuestion: Is household_income for each region influenced by the race distrubtion with each region?\n\ndf2 &lt;- ice_cream %&gt;% \n  group_by(race) %&gt;% \n  summarise(mean_inc = mean(household_income))\n\nrmarkdown::paged_table(df2)\n\n\n  \n\n\n\nLowest income race is asian, going off a grouped mean calculation for each race.\n\ndf3 &lt;- ice_cream %&gt;% \n  group_by(region) %&gt;% \n  summarise(mean_inc = mean(household_income))\n\nrmarkdown::paged_table(df3)\n\n\n  \n\n\n\nThe lowest income region is East, going off a grouped mean calculation for each region.\n\ndf1 &lt;- ice_cream %&gt;% \n  group_by(race, region) %&gt;% \n  summarise(n = n())%&gt;% \n  ungroup() %&gt;% \n  group_by(race) %&gt;% \n  slice_max(order_by = n, n = 1)\n\nrmarkdown::paged_table(df1) \n\n\n  \n\n\n\nThis table shows where each race is found most frequently.\n\nInterpretation\nThe lowest income race in this data.frame is asian, and the lowest income region is East. The region in which the asian race is found most commonly is within the West. According to this data, it could be inferred that the low relative income seen in the East is not caused by low relative income seen in the demographics that dominate the region, nor is causing poverty disproportionately amongst certain races."
+  },
+  {
+    "objectID": "posts/python basics/pythodbasics.html",
+    "href": "posts/python basics/pythodbasics.html",
+    "title": "Python Basics",
+    "section": "",
+    "text": "In lectures 4 & 5, and Classwork 4 we went over some of the basics when it comes to using python. We learned how to assign variables and create lists. Basic math functions were discussed too. We also introduced using while & for loops, and how break and else commands can be utilized to modify these loops. We introduces how to import the pandas library as well."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code with no space in the folder name.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "posts/Spotify/spotifyanalysis.html",
+    "href": "posts/Spotify/spotifyanalysis.html",
+    "title": "Spotify Analysis",
+    "section": "",
+    "text": "import pandas as pd\nfrom google.colab import data_table\ndata_table.enable_dataframe_formatter()\nspotify = pd.read_csv('https://bcdanl.github.io/data/spotify_all.csv')\nspotify\n\nWarning: total number of rows (198005) exceeds max_rows (20000). Falling back to pandas display.\n\n\n\n    \n\n\n\n\n\n\npid\nplaylist_name\npos\nartist_name\ntrack_name\nduration_ms\nalbum_name\n\n\n\n\n0\n0\nThrowbacks\n0\nMissy Elliott\nLose Control (feat. Ciara & Fat Man Scoop)\n226863\nThe Cookbook\n\n\n1\n0\nThrowbacks\n1\nBritney Spears\nToxic\n198800\nIn The Zone\n\n\n2\n0\nThrowbacks\n2\nBeyoncé\nCrazy In Love\n235933\nDangerously In Love (Alben für die Ewigkeit)\n\n\n3\n0\nThrowbacks\n3\nJustin Timberlake\nRock Your Body\n267266\nJustified\n\n\n4\n0\nThrowbacks\n4\nShaggy\nIt Wasn't Me\n227600\nHot Shot\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n198000\n999998\n✝️\n6\nChris Tomlin\nWaterfall\n209573\nLove Ran Red\n\n\n198001\n999998\n✝️\n7\nChris Tomlin\nThe Roar\n220106\nLove Ran Red\n\n\n198002\n999998\n✝️\n8\nCrowder\nLift Your Head Weary Sinner (Chains)\n224666\nNeon Steeple\n\n\n198003\n999998\n✝️\n9\nChris Tomlin\nWe Fall Down\n280960\nHow Great Is Our God: The Essential Collection\n\n\n198004\n999998\n✝️\n10\nCaleb and Kelsey\n10,000 Reasons / What a Beautiful Name\n178189\n10,000 Reasons / What a Beautiful Name\n\n\n\n\n198005 rows × 7 columns\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\n\n\n\nmy favorite artist is dire straits\nI will be analyzing their info from spotify\n\n\nspotify_ds = spotify[spotify['artist_name'] == 'Dire Straits']\nspotify_ds\n\n\n    \n\n\n\n\n\n\npid\nplaylist_name\npos\nartist_name\ntrack_name\nduration_ms\nalbum_name\n\n\n\n\n22205\n354\nCruisin\n0\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n40725\n611\nOldies\n32\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n42566\n637\nClassic\n120\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n46747\n694\nPARTY\n77\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n47872\n712\nclassic\n1\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n47919\n712\nclassic\n48\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n47924\n712\nclassic\n53\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n50923\n756\nkitchen\n10\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n53575\n804\nGood Stuff\n36\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n57280\n849\nchill\n72\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n61594\n916\nRock\n32\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n74495\n1101\nRock\n53\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n74521\n1101\nRock\n79\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n76420\n1138\nClassic Rock\n16\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n76421\n1138\nClassic Rock\n17\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n76422\n1138\nClassic Rock\n18\nDire Straits\nRide Across The River\n424600\nBrothers In Arms\n\n\n76423\n1138\nClassic Rock\n19\nDire Straits\nThe Man's Too Strong\n275481\nBrothers In Arms\n\n\n76424\n1138\nClassic Rock\n20\nDire Straits\nBrothers In Arms\n424000\nBrothers In Arms\n\n\n76425\n1138\nClassic Rock\n21\nDire Straits\nOne World\n218466\nBrothers In Arms\n\n\n76531\n1138\nClassic Rock\n127\nDire Straits\nWhy Worry?\n509066\nBrothers In Arms\n\n\n110500\n1642\ndriving music\n148\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n111937\n1664\nDad Rock\n44\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n136287\n999028\nHappy Day\n73\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n136666\n999034\nClassic Music\n224\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n138071\n999058\nclassics\n5\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n144145\n999153\n80s music\n104\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n144732\n999161\nTake it Easy\n22\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n157090\n999351\noldies\n45\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n157535\n999358\nJammers\n160\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n163921\n999472\nLove Music\n22\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n168272\n999534\nOh Yeah!\n38\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n172502\n999598\ncar\n224\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n187720\n999833\nDriving\n146\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n187721\n999833\nDriving\n147\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n194334\n999935\nCruzin\n101\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n194359\n999935\nCruzin\n126\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n196751\n999978\nmom!\n150\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n196752\n999978\nmom!\n151\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n196855\n999980\nOld school\n26\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\n\n\n\nDire Straits appear in 26 different playlists in this dataframe\nthey appear the most in the “Classic Rock” data frame\non average dire straits are added at the 54th spot on people’s playlists\n\n\nspotify_ds['playlist_name'].nunique()\n\n26\n\n\n\nspotify['pos'].mean()\n\n54.39170728011919\n\n\n\nplaylist_count = spotify_ds['playlist_name'].value_counts()\nplaylist_count\n\n\n\n\n\n\n\n\ncount\n\n\nplaylist_name\n\n\n\n\n\nClassic Rock\n7\n\n\nclassic\n3\n\n\nRock\n3\n\n\nmom!\n2\n\n\nCruzin\n2\n\n\nDriving\n2\n\n\nCruisin\n1\n\n\n80s music\n1\n\n\ncar\n1\n\n\nOh Yeah!\n1\n\n\nLove Music\n1\n\n\nJammers\n1\n\n\noldies\n1\n\n\nTake it Easy\n1\n\n\nClassic Music\n1\n\n\nclassics\n1\n\n\nOldies\n1\n\n\nHappy Day\n1\n\n\nDad Rock\n1\n\n\ndriving music\n1\n\n\nchill\n1\n\n\nGood Stuff\n1\n\n\nkitchen\n1\n\n\nPARTY\n1\n\n\nClassic\n1\n\n\nOld school\n1\n\n\n\n\ndtype: int64\n\n\n\n\n\n\nthree dire straits albums appear in this dataframe\nBrothers in arms being the most popular\nMaking movies being the least popular\n\n\nalbum_count = spotify_ds['album_name'].value_counts()\nalbum_count\n\n\n\n\n\n\n\n\ncount\n\n\nplaylist_name\n\n\n\n\n\nClassic Rock\n7\n\n\nclassic\n3\n\n\nRock\n3\n\n\nmom!\n2\n\n\nCruzin\n2\n\n\nDriving\n2\n\n\nCruisin\n1\n\n\n80s music\n1\n\n\ncar\n1\n\n\nOh Yeah!\n1\n\n\nLove Music\n1\n\n\nJammers\n1\n\n\noldies\n1\n\n\nTake it Easy\n1\n\n\nClassic Music\n1\n\n\nclassics\n1\n\n\nOldies\n1\n\n\nHappy Day\n1\n\n\nDad Rock\n1\n\n\ndriving music\n1\n\n\nchill\n1\n\n\nGood Stuff\n1\n\n\nkitchen\n1\n\n\nPARTY\n1\n\n\nClassic\n1\n\n\nOld school\n1\n\n\n\n\ndtype: int64\n\n\n\n\n\n\nSultans of swing is the most popular\nWhy worry is the least popular\n\n\nsong_count = spotify_ds['track_name'].value_counts()\nsong_count\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nSultans Of Swing\n14\n\n\nMoney For Nothing\n8\n\n\nWalk Of Life\n7\n\n\nRomeo And Juliet\n5\n\n\nRide Across The River\n1\n\n\nThe Man's Too Strong\n1\n\n\nBrothers In Arms\n1\n\n\nOne World\n1\n\n\nWhy Worry?\n1\n\n\n\n\ndtype: int64\n\n\n\n\n\n\nthe top 5 most popular artists are 1. drake 2. Kanye West 3. Kendrick Lamar 4. Rihanna 5. The Weeknd\n\nartist = spotify['artist_name'].value_counts()\nartist.head(5)\n\n\n\n\n\n\n\n\ncount\n\n\nartist_name\n\n\n\n\n\nDrake\n2715\n\n\nKanye West\n1065\n\n\nKendrick Lamar\n1035\n\n\nRihanna\n915\n\n\nThe Weeknd\n913\n\n\n\n\ndtype: int64\n\n\n\n\n\nmost popular song is one One Dance\n\nthis song appears in 2715 playlists\n\n\n\ndrake = spotify[spotify['artist_name']==\"Drake\"]\nsong_count_drake = drake['track_name'].value_counts()\nsong_count_drake\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nOne Dance\n143\n\n\nJumpman\n95\n\n\nFake Love\n92\n\n\nHotline Bling\n83\n\n\nPassionfruit\n72\n\n\n...\n...\n\n\nKaraoke\n2\n\n\nBuried Alive Interlude\n2\n\n\nThe Calm\n1\n\n\nRunnin Away For Good\n1\n\n\nThe Calm - Album Version (Edited)\n1\n\n\n\n\n135 rows × 1 columns\ndtype: int64\n\n\n\npop_drake_song = drake.set_index('track_name')\npop_drake_song.loc['One Dance', [\"playlist_name\"]]\n\n\n    \n\n\n\n\n\n\nplaylist_name\n\n\ntrack_name\n\n\n\n\n\nOne Dance\nboat\n\n\nOne Dance\nparty people\n\n\nOne Dance\nw o r k o u t\n\n\nOne Dance\nEnglish\n\n\nOne Dance\nSummer Chill\n\n\n...\n...\n\n\nOne Dance\nmixx\n\n\nOne Dance\n(Guilty)\n\n\nOne Dance\nMarathon\n\n\nOne Dance\nold stuff\n\n\nOne Dance\nDrake\n\n\n\n\n143 rows × 1 columns\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n    \n  \n\n\n\npop_drake_song.shape[0]\n\n2715\n\n\n\n\n\n\nmost popular songs are: 1. closer 2. one dance 3. HUMBLE 4. home 5. roses\n\nsongs = spotify['track_name'].value_counts()\nsongs.head(5)\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nCloser\n205\n\n\nOne Dance\n144\n\n\nHUMBLE.\n142\n\n\nHome\n136\n\n\nRoses\n132\n\n\n\n\ndtype: int64"
+  },
+  {
+    "objectID": "posts/Spotify/spotifyanalysis.html#favorite-artist",
+    "href": "posts/Spotify/spotifyanalysis.html#favorite-artist",
+    "title": "Spotify Analysis",
+    "section": "",
+    "text": "my favorite artist is dire straits\nI will be analyzing their info from spotify\n\n\nspotify_ds = spotify[spotify['artist_name'] == 'Dire Straits']\nspotify_ds\n\n\n    \n\n\n\n\n\n\npid\nplaylist_name\npos\nartist_name\ntrack_name\nduration_ms\nalbum_name\n\n\n\n\n22205\n354\nCruisin\n0\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n40725\n611\nOldies\n32\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n42566\n637\nClassic\n120\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n46747\n694\nPARTY\n77\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n47872\n712\nclassic\n1\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n47919\n712\nclassic\n48\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n47924\n712\nclassic\n53\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n50923\n756\nkitchen\n10\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n53575\n804\nGood Stuff\n36\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n57280\n849\nchill\n72\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n61594\n916\nRock\n32\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n74495\n1101\nRock\n53\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n74521\n1101\nRock\n79\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n76420\n1138\nClassic Rock\n16\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n76421\n1138\nClassic Rock\n17\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n76422\n1138\nClassic Rock\n18\nDire Straits\nRide Across The River\n424600\nBrothers In Arms\n\n\n76423\n1138\nClassic Rock\n19\nDire Straits\nThe Man's Too Strong\n275481\nBrothers In Arms\n\n\n76424\n1138\nClassic Rock\n20\nDire Straits\nBrothers In Arms\n424000\nBrothers In Arms\n\n\n76425\n1138\nClassic Rock\n21\nDire Straits\nOne World\n218466\nBrothers In Arms\n\n\n76531\n1138\nClassic Rock\n127\nDire Straits\nWhy Worry?\n509066\nBrothers In Arms\n\n\n110500\n1642\ndriving music\n148\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n111937\n1664\nDad Rock\n44\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n136287\n999028\nHappy Day\n73\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n136666\n999034\nClassic Music\n224\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n138071\n999058\nclassics\n5\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n144145\n999153\n80s music\n104\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n144732\n999161\nTake it Easy\n22\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n157090\n999351\noldies\n45\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n157535\n999358\nJammers\n160\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n163921\n999472\nLove Music\n22\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n168272\n999534\nOh Yeah!\n38\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n172502\n999598\ncar\n224\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n187720\n999833\nDriving\n146\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n187721\n999833\nDriving\n147\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n194334\n999935\nCruzin\n101\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n194359\n999935\nCruzin\n126\nDire Straits\nRomeo And Juliet\n360666\nMaking Movies\n\n\n196751\n999978\nmom!\n150\nDire Straits\nSultans Of Swing\n348624\nDire Straits\n\n\n196752\n999978\nmom!\n151\nDire Straits\nWalk Of Life\n249960\nBrothers In Arms\n\n\n196855\n999980\nOld school\n26\nDire Straits\nMoney For Nothing\n510933\nBrothers In Arms\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\n\n\n\nDire Straits appear in 26 different playlists in this dataframe\nthey appear the most in the “Classic Rock” data frame\non average dire straits are added at the 54th spot on people’s playlists\n\n\nspotify_ds['playlist_name'].nunique()\n\n26\n\n\n\nspotify['pos'].mean()\n\n54.39170728011919\n\n\n\nplaylist_count = spotify_ds['playlist_name'].value_counts()\nplaylist_count\n\n\n\n\n\n\n\n\ncount\n\n\nplaylist_name\n\n\n\n\n\nClassic Rock\n7\n\n\nclassic\n3\n\n\nRock\n3\n\n\nmom!\n2\n\n\nCruzin\n2\n\n\nDriving\n2\n\n\nCruisin\n1\n\n\n80s music\n1\n\n\ncar\n1\n\n\nOh Yeah!\n1\n\n\nLove Music\n1\n\n\nJammers\n1\n\n\noldies\n1\n\n\nTake it Easy\n1\n\n\nClassic Music\n1\n\n\nclassics\n1\n\n\nOldies\n1\n\n\nHappy Day\n1\n\n\nDad Rock\n1\n\n\ndriving music\n1\n\n\nchill\n1\n\n\nGood Stuff\n1\n\n\nkitchen\n1\n\n\nPARTY\n1\n\n\nClassic\n1\n\n\nOld school\n1\n\n\n\n\ndtype: int64\n\n\n\n\n\n\nthree dire straits albums appear in this dataframe\nBrothers in arms being the most popular\nMaking movies being the least popular\n\n\nalbum_count = spotify_ds['album_name'].value_counts()\nalbum_count\n\n\n\n\n\n\n\n\ncount\n\n\nplaylist_name\n\n\n\n\n\nClassic Rock\n7\n\n\nclassic\n3\n\n\nRock\n3\n\n\nmom!\n2\n\n\nCruzin\n2\n\n\nDriving\n2\n\n\nCruisin\n1\n\n\n80s music\n1\n\n\ncar\n1\n\n\nOh Yeah!\n1\n\n\nLove Music\n1\n\n\nJammers\n1\n\n\noldies\n1\n\n\nTake it Easy\n1\n\n\nClassic Music\n1\n\n\nclassics\n1\n\n\nOldies\n1\n\n\nHappy Day\n1\n\n\nDad Rock\n1\n\n\ndriving music\n1\n\n\nchill\n1\n\n\nGood Stuff\n1\n\n\nkitchen\n1\n\n\nPARTY\n1\n\n\nClassic\n1\n\n\nOld school\n1\n\n\n\n\ndtype: int64\n\n\n\n\n\n\nSultans of swing is the most popular\nWhy worry is the least popular\n\n\nsong_count = spotify_ds['track_name'].value_counts()\nsong_count\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nSultans Of Swing\n14\n\n\nMoney For Nothing\n8\n\n\nWalk Of Life\n7\n\n\nRomeo And Juliet\n5\n\n\nRide Across The River\n1\n\n\nThe Man's Too Strong\n1\n\n\nBrothers In Arms\n1\n\n\nOne World\n1\n\n\nWhy Worry?\n1\n\n\n\n\ndtype: int64"
+  },
+  {
+    "objectID": "posts/Spotify/spotifyanalysis.html#popular-artists",
+    "href": "posts/Spotify/spotifyanalysis.html#popular-artists",
+    "title": "Spotify Analysis",
+    "section": "",
+    "text": "the top 5 most popular artists are 1. drake 2. Kanye West 3. Kendrick Lamar 4. Rihanna 5. The Weeknd\n\nartist = spotify['artist_name'].value_counts()\nartist.head(5)\n\n\n\n\n\n\n\n\ncount\n\n\nartist_name\n\n\n\n\n\nDrake\n2715\n\n\nKanye West\n1065\n\n\nKendrick Lamar\n1035\n\n\nRihanna\n915\n\n\nThe Weeknd\n913\n\n\n\n\ndtype: int64\n\n\n\n\n\nmost popular song is one One Dance\n\nthis song appears in 2715 playlists\n\n\n\ndrake = spotify[spotify['artist_name']==\"Drake\"]\nsong_count_drake = drake['track_name'].value_counts()\nsong_count_drake\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nOne Dance\n143\n\n\nJumpman\n95\n\n\nFake Love\n92\n\n\nHotline Bling\n83\n\n\nPassionfruit\n72\n\n\n...\n...\n\n\nKaraoke\n2\n\n\nBuried Alive Interlude\n2\n\n\nThe Calm\n1\n\n\nRunnin Away For Good\n1\n\n\nThe Calm - Album Version (Edited)\n1\n\n\n\n\n135 rows × 1 columns\ndtype: int64\n\n\n\npop_drake_song = drake.set_index('track_name')\npop_drake_song.loc['One Dance', [\"playlist_name\"]]\n\n\n    \n\n\n\n\n\n\nplaylist_name\n\n\ntrack_name\n\n\n\n\n\nOne Dance\nboat\n\n\nOne Dance\nparty people\n\n\nOne Dance\nw o r k o u t\n\n\nOne Dance\nEnglish\n\n\nOne Dance\nSummer Chill\n\n\n...\n...\n\n\nOne Dance\nmixx\n\n\nOne Dance\n(Guilty)\n\n\nOne Dance\nMarathon\n\n\nOne Dance\nold stuff\n\n\nOne Dance\nDrake\n\n\n\n\n143 rows × 1 columns\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n\n  \n\n\n    \n        \n    \n\n  \n\n\n\n  \n\n\n    \n  \n\n\n\npop_drake_song.shape[0]\n\n2715"
+  },
+  {
+    "objectID": "posts/Spotify/spotifyanalysis.html#popular-songs",
+    "href": "posts/Spotify/spotifyanalysis.html#popular-songs",
+    "title": "Spotify Analysis",
+    "section": "",
+    "text": "most popular songs are: 1. closer 2. one dance 3. HUMBLE 4. home 5. roses\n\nsongs = spotify['track_name'].value_counts()\nsongs.head(5)\n\n\n\n\n\n\n\n\ncount\n\n\ntrack_name\n\n\n\n\n\nCloser\n205\n\n\nOne Dance\n144\n\n\nHUMBLE.\n142\n\n\nHome\n136\n\n\nRoses\n132\n\n\n\n\ndtype: int64"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html",
+    "title": "Xmas Movie Analysis",
+    "section": "",
+    "text": "import pandas as pd\nfrom google.colab import data_table\ndata_table.enable_dataframe_formatter()\nholiday_movies = pd.read_csv(\"https://bcdanl.github.io/data/holiday_movies.csv\")\nholiday_movie_genres = pd.read_csv(\"https://bcdanl.github.io/data/holiday_movie_genres.csv\")\nholiday_movies\n\n\n    \n\n\n\n\n\n\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n0\ntt0020356\nmovie\nSailor's Holiday\nsailors holiday\n1929\n58.0\n5.4\n55\n\n\n1\ntt0020823\nmovie\nThe Devil's Holiday\nthe devils holiday\n1930\n80.0\n6.0\n242\n\n\n2\ntt0020985\nmovie\nHoliday\nholiday\n1930\n91.0\n6.3\n638\n\n\n3\ntt0021268\nmovie\nHoliday of St. Jorgen\nholiday of st jorgen\n1930\n83.0\n7.4\n256\n\n\n4\ntt0021377\nmovie\nSin Takes a Holiday\nsin takes a holiday\n1930\n81.0\n6.1\n740\n\n\n...\n...\n...\n...\n...\n...\n...\n...\n...\n\n\n2260\ntt9747440\ntvMovie\nA Christmas Love Story\na christmas love story\n2019\n84.0\n6.9\n1652\n\n\n2261\ntt9747450\ntvMovie\nHoliday for Heroes\nholiday for heroes\n2019\n81.0\n7.0\n1655\n\n\n2262\ntt9802890\ntvMovie\nChristmas Jars\nchristmas jars\n2019\n93.0\n7.3\n914\n\n\n2263\ntt9815084\ntvMovie\nA Very British Christmas\na very british christmas\n2019\n90.0\n5.7\n725\n\n\n2264\ntt9892854\ntvMovie\n#Xmas\nxmas\n2022\n84.0\n5.8\n926\n\n\n\n\n2265 rows × 8 columns\nholiday_movie_genres\n\n\n    \n\n\n\n\n\n\ntconst\ngenres\n\n\n\n\n0\ntt0020356\nComedy\n\n\n1\ntt0020823\nDrama\n\n\n2\ntt0020823\nRomance\n\n\n3\ntt0020985\nComedy\n\n\n4\ntt0020985\nDrama\n\n\n...\n...\n...\n\n\n4526\ntt9815084\nFamily\n\n\n4527\ntt9815084\nRomance\n\n\n4528\ntt9892854\nComedy\n\n\n4529\ntt9892854\nDrama\n\n\n4530\ntt9892854\nRomance\n\n\n\n\n4531 rows × 2 columns"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#top-rated-movies-within-the-most-popular-genre-comedy",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#top-rated-movies-within-the-most-popular-genre-comedy",
+    "title": "Xmas Movie Analysis",
+    "section": "Top rated movies within the most popular genre (Comedy)",
+    "text": "Top rated movies within the most popular genre (Comedy)\n\ndf[df[\"genres\"] == \"Comedy\"].sort_values(by=\"average_rating\", ascending=False).head(5)\n\n\n    \n\n\n\n\n\n\nindex\ntconst\ngenres\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n1204\n1204\ntt0902454\nComedy\ntt1569470\nvideo\nNLO Spirit of Christmas\nnlo spirit of christmas\n2009.0\n70.0\n10.0\n18.0\n\n\n1433\n1433\ntt10804410\nComedy\ntt21411946\nmovie\nBringing Back Christmas\nbringing back christmas\n2023.0\nNaN\n9.9\n20.0\n\n\n1522\n1522\ntt11090204\nComedy\ntt2273141\nvideo\nChristmas Bone Us\nchristmas bone us\n2012.0\n6.0\n9.8\n10.0\n\n\n1601\n1601\ntt1141984\nComedy\ntt25147828\nmovie\nCheap vs. Expensive Xmas Day\ncheap vs expensive xmas day\n2022.0\n107.0\n9.5\n14.0\n\n\n2239\n2239\ntt1489248\nComedy\ntt9351618\ntvMovie\nLet's Go Luna!: Luna's Christmas Around the World\nlets go luna lunas christmas around the world\n2018.0\n47.0\n9.2\n18.0"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#top-rated-movies",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#top-rated-movies",
+    "title": "Xmas Movie Analysis",
+    "section": "top rated movies",
+    "text": "top rated movies\n\ndf.sort_values(by = ['average_rating'], ascending = False).head(5)\n\n\n    \n\n\n\n\n\n\nindex\ntconst\ngenres\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n1204\n1204\ntt0902454\nComedy\ntt1569470\nvideo\nNLO Spirit of Christmas\nnlo spirit of christmas\n2009.0\n70.0\n10.0\n18.0\n\n\n1433\n1433\ntt10804410\nComedy\ntt21411946\nmovie\nBringing Back Christmas\nbringing back christmas\n2023.0\nNaN\n9.9\n20.0\n\n\n1522\n1522\ntt11090204\nComedy\ntt2273141\nvideo\nChristmas Bone Us\nchristmas bone us\n2012.0\n6.0\n9.8\n10.0\n\n\n1601\n1601\ntt1141984\nComedy\ntt25147828\nmovie\nCheap vs. Expensive Xmas Day\ncheap vs expensive xmas day\n2022.0\n107.0\n9.5\n14.0\n\n\n519\n519\ntt0220525\nDocumentary\ntt0487263\ntvMovie\nMarie Osmond's Merry Christmas\nmarie osmonds merry christmas\n1986.0\nNaN\n9.4\n23.0\n\n\n564\n564\ntt0242135\nFamily\ntt0824748\ntvMovie\nChristmas and the Civil War\nchristmas and the civil war\n2006.0\nNaN\n9.3\n16.0\n\n\n1416\n1416\ntt10768328\nDrama\ntt21308838\nvideo\nAunty Donna: Always Room for Christmas Pud\naunty donna always room for christmas pud\n2018.0\n4.0\n9.3\n24.0\n\n\n2241\n2241\ntt1489248\nFamily\ntt9361052\nvideo\nD'Astrain No Cinema - Christmas Special\ndastrain no cinema christmas special\n2018.0\n5.0\n9.3\n81.0\n\n\n548\n548\ntt0233828\nDocumentary\ntt0766251\ntvMovie\nTom's Christmas Tree\ntoms christmas tree\n2006.0\n26.0\n9.2\n34.0\n\n\n1645\n1645\ntt11585200\nRomance\ntt28015185\nmovie\nChristmas Ringer\nchristmas ringer\n2023.0\nNaN\n9.2\n21.0"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#bottom-rated-movies",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#bottom-rated-movies",
+    "title": "Xmas Movie Analysis",
+    "section": "bottom rated movies",
+    "text": "bottom rated movies\n\ndf.sort_values(by = ['average_rating'], ascending = True).head(5)\n\n\n    \n\n\n\n\n\n\nindex\ntconst\ngenres\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n2179\n2179\ntt14577152\nComedy\ntt8941352\nvideo\nA Grinch Christmas Carol\na grinch christmas carol\n2012.0\n2.0\n1.0\n41.0\n\n\n1797\n1797\ntt1284976\nRomance\ntt4009460\nmovie\nKirk Cameron's Saving Christmas\nkirk camerons saving christmas\n2014.0\n79.0\n1.3\n16608.0\n\n\n1272\n1272\ntt10149756\nDrama\ntt1651146\ntvMovie\nThe Christmas Tree\nthe christmas tree\n1991.0\n43.0\n1.4\n854.0\n\n\n854\n854\ntt0370767\nNaN\ntt1242748\nvideo\nJohnson Family Christmas Dinner\njohnson family christmas dinner\n2008.0\n88.0\n1.5\n127.0\n\n\n927\n927\ntt0405615\nFamily\ntt13180242\ntvMovie\nA Christmas Call\na christmas call\n2020.0\nNaN\n1.5\n11.0\n\n\n1610\n1610\ntt11455096\nDocumentary\ntt2578608\nmovie\nKrampus: The Christmas Devil\nkrampus the christmas devil\n2013.0\n82.0\n1.6\n1963.0\n\n\n2174\n2174\ntt1451381\nAnimation\ntt8879926\nmovie\nA Raunchy Christmas Story\na raunchy christmas story\n2018.0\n72.0\n1.7\n132.0\n\n\n2100\n2100\ntt13878640\nComedy\ntt7784186\nvideo\nThe Christmas Light\nthe christmas light\n1995.0\n23.0\n1.7\n126.0\n\n\n2258\n2258\ntt15012044\nRomance\ntt9683542\nmovie\nA Karate Christmas Miracle\na karate christmas miracle\n2019.0\n90.0\n1.8\n177.0\n\n\n2121\n2121\ntt14065740\nComedy\ntt8096860\nmovie\nA Feminist Christmas Carol\na feminist christmas carol\n2017.0\nNaN\n1.8\n14.0"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#shortest-movies",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#shortest-movies",
+    "title": "Xmas Movie Analysis",
+    "section": "Shortest movies",
+    "text": "Shortest movies\n\ndf.sort_values(by = ['runtime_minutes'], ascending = True).head(5)\n\n\n    \n\n\n\n\n\n\nindex\ntconst\ngenres\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n2177\n2177\ntt14558558\nDrama\ntt8894218\nvideo\n1982 Burger King Christmas Commercial with Lea...\n1982 burger king christmas commercial with lea...\n1983.0\n1.0\n6.7\n67.0\n\n\n812\n812\ntt0344269\nShort\ntt11649070\nvideo\nLast Christmas: Emilia Sings\nlast christmas emilia sings\n2019.0\n1.0\n8.9\n20.0\n\n\n847\n847\ntt0366691\nFamily\ntt12298120\nvideo\nBuffy the Vampire Slayer: 1-800 Collect 'A Buf...\nbuffy the vampire slayer 1800 collect a buffy ...\n1998.0\n1.0\n7.9\n17.0\n\n\n1064\n1064\ntt0487263\nMusic\ntt14084160\nvideo\nCapitol One: Christmas Ad\ncapitol one christmas ad\n2020.0\n1.0\n6.8\n146.0\n\n\n2092\n2092\ntt13795858\nShort\ntt7743592\nvideo\nBBC One Christmas 2017: The Supporting Act\nbbc one christmas 2017 the supporting act\n2017.0\n2.0\n6.7\n10.0\n\n\n2244\n2244\ntt1492952\nComedy\ntt9410240\nvideo\nEmmet's Holiday Party: A Lego Movie Short\nemmets holiday party a lego movie short\n2018.0\n2.0\n6.0\n224.0\n\n\n1941\n1941\ntt13341414\nComedy\ntt6077642\nvideo\nLego Star Wars: Christmas Special\nlego star wars christmas special\n2008.0\n2.0\n6.8\n10.0\n\n\n2179\n2179\ntt14577152\nComedy\ntt8941352\nvideo\nA Grinch Christmas Carol\na grinch christmas carol\n2012.0\n2.0\n1.0\n41.0\n\n\n1929\n1929\ntt1332026\nComedy\ntt5882474\nvideo\nPunitive psychiatry: Antichristmas\npunitive psychiatry antichristmas\n2015.0\n2.0\n8.9\n26.0\n\n\n1594\n1594\ntt1139113\nAnimation\ntt24816758\nvideo\nA Holiday Party Starring Alexandra Daddario\na holiday party starring alexandra daddario\n2021.0\n2.0\n4.9\n24.0"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#longest-movies",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#longest-movies",
+    "title": "Xmas Movie Analysis",
+    "section": "longest movies",
+    "text": "longest movies\n\ndf.sort_values(by = ['runtime_minutes'], ascending = False).head(5)\n\n\n    \n\n\n\n\n\n\nindex\ntconst\ngenres\ntconst\ntitle_type\nprimary_title\nsimple_title\nyear\nruntime_minutes\naverage_rating\nnum_votes\n\n\n\n\n2076\n2076\ntt13708060\nMusical\ntt7683858\nvideo\nThomas & Friends: Thomas' Holiday Collection\nthomas friends thomas holiday collection\n2017.0\n288.0\n4.3\n30.0\n\n\n1731\n1731\ntt12389030\nComedy\ntt3138040\nvideo\nScooby-Doo: 13 Spooky Tales - Holiday Chills a...\nscoobydoo 13 spooky tales holiday chills and ...\n2012.0\n286.0\n7.6\n95.0\n\n\n636\n636\ntt0269988\nMusical\ntt10220226\nvideo\nThat '70s Show: Holiday Edition\nthat 70s show holiday edition\n2011.0\n220.0\n8.4\n130.0\n\n\n2255\n2255\ntt15010346\nRomance\ntt9636340\nvideo\nA Frozen Christmas Carol\na frozen christmas carol\n2018.0\n213.0\n5.7\n20.0\n\n\n1556\n1556\ntt11241514\nRomance\ntt2361175\ntvMovie\nBritain's Favourite Christmas Songs\nbritains favourite christmas songs\n2011.0\n180.0\n5.4\n20.0\n\n\n2251\n2251\ntt1499623\nAnimation\ntt9485074\ntvMovie\nWhen Christmas Goes Horribly Wrong\nwhen christmas goes horribly wrong\n2018.0\n172.0\n5.4\n10.0\n\n\n1390\n1390\ntt10667026\nFamily\ntt2078672\ntvMovie\nLove's Christmas Journey\nloves christmas journey\n2011.0\n172.0\n6.4\n809.0\n\n\n1761\n1761\ntt12766346\nRomance\ntt3438088\ntvMovie\nGreatest Ever Christmas Movies\ngreatest ever christmas movies\n2013.0\n165.0\n5.8\n21.0\n\n\n1604\n1604\ntt11421878\nMusic\ntt2556308\nmovie\nHoliday\nholiday\n2014.0\n160.0\n7.2\n29676.0\n\n\n240\n240\ntt0088106\nRomance\ntt0196565\nmovie\nMediterranean Holiday\nmediterranean holiday\n1962.0\n158.0\n7.5\n87.0"
+  },
+  {
+    "objectID": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#average-rating-after-2005",
+    "href": "posts/Holiday Movie Analysis/xmasmovieanalysis.html#average-rating-after-2005",
+    "title": "Xmas Movie Analysis",
+    "section": "average rating after 2005",
+    "text": "average rating after 2005\n\navgnew = df[df['year'] &gt;= 2005]\navgnew['average_rating'].mean()\n\nnp.float64(5.965655339805825)\n\n\n\navgold = df[df['year'] &lt;= 2005]\navgold['average_rating'].mean()\n\nnp.float64(6.335518292682926)\n\n\nprint (“Hello Josh”)"
+  },
+  {
+    "objectID": "posts/starwars/starwars_df.html",
+    "href": "posts/starwars/starwars_df.html",
+    "title": "Starwars",
+    "section": "",
+    "text": "Let’s analyze the starwars data:\nstarwars &lt;- read_csv(\"https://bcdanl.github.io/data/starwars.csv\")"
+  },
+  {
+    "objectID": "posts/starwars/starwars_df.html#variable-description-for-starwars-data.frame",
+    "href": "posts/starwars/starwars_df.html#variable-description-for-starwars-data.frame",
+    "title": "Starwars",
+    "section": "Variable Description for starwars data.frame",
+    "text": "Variable Description for starwars data.frame\nThe following describes the variables in the starwars data.frame.\n\nfilms List of films the character appeared in\nname Name of the character\nspecies Name of species\nheight Height (cm)\nmass Weight (kg)\nhair_color, skin_color, eye_color Hair, skin, and eye colors\nbirth_year Year born (BBY = Before Battle of Yavin)\nsex The biological sex of the character, namely male, female, hermaphroditic, or none (as in the case for Droids).\ngender The gender role or gender identity of the character as determined by their personality or the way they were programmed (as in the case for Droids).\nhomeworld Name of homeworld"
+  },
+  {
+    "objectID": "posts/starwars/starwars_df.html#human-vs.-droid",
+    "href": "posts/starwars/starwars_df.html#human-vs.-droid",
+    "title": "Starwars",
+    "section": "Human vs. Droid",
+    "text": "Human vs. Droid\n\nggplot(data = \n         starwars %&gt;% \n         filter(species %in% c(\"Human\", \"Droid\"))) +\n  geom_boxplot(aes(x = species, y = mass, \n                   fill = species),\n               show.legend = FALSE)"
+  },
+  {
+    "objectID": "danl-210-python-basic.html",
+    "href": "danl-210-python-basic.html",
+    "title": "Python Basics",
+    "section": "",
+    "text": "Python is a high-level, interpreted programming language. This is a simple Python code:\n\nprint('Hello, World!')\n\n\n\n\nIn Python, variables can store data of different types without explicitly declaring the type.\nFor example:\n\ninteger_variable = 10\nstring_variable = 'Hello'\nfloat_variable = 10.5\n\nfloat_variable\n\n10.5\n\n\n\n\n\nPython supports the usual logical conditions from mathematics:\n\n# Equals: a == b\n# Not Equals: a != b\n# Less than: a &lt; b\n# Less than or equal to: a &lt;= b\n# Greater than: a &gt; b\n# Greater than or equal to: a &gt;= b\n\nThese conditions can be used in several ways, most commonly in ‘if statements’ and loops.\n\n# if statement:\nif 5 &gt; 2:\n    print('Five is greater than two!')\n\n\n\n\nA function is a block of code which only runs when it is called.\nYou can pass data, known as parameters, into a function.\nA function can return data as a result.\n\n# Defining a function:\ndef my_function():\n    print('Hello from a function')\n\n# Calling a function:\nmy_function()\n\n\n\n\nA list is a collection which is ordered and changeable.\nA dictionary is a collection which is unordered, changeable and indexed.\n\n# List example:\nmy_list = ['apple', 'banana', 'cherry']\n\n# Dictionary example:\nmy_dict = {'name': 'John', 'age': 36}"
+  },
+  {
+    "objectID": "danl-210-python-basic.html#what-is-python",
+    "href": "danl-210-python-basic.html#what-is-python",
+    "title": "Python Basics",
+    "section": "",
+    "text": "Python is a high-level, interpreted programming language. This is a simple Python code:\n\nprint('Hello, World!')"
+  },
+  {
+    "objectID": "danl-210-python-basic.html#variables-and-data-types",
+    "href": "danl-210-python-basic.html#variables-and-data-types",
+    "title": "Python Basics",
+    "section": "",
+    "text": "In Python, variables can store data of different types without explicitly declaring the type.\nFor example:\n\ninteger_variable = 10\nstring_variable = 'Hello'\nfloat_variable = 10.5\n\nfloat_variable\n\n10.5"
+  },
+  {
+    "objectID": "danl-210-python-basic.html#control-structures",
+    "href": "danl-210-python-basic.html#control-structures",
+    "title": "Python Basics",
+    "section": "",
+    "text": "Python supports the usual logical conditions from mathematics:\n\n# Equals: a == b\n# Not Equals: a != b\n# Less than: a &lt; b\n# Less than or equal to: a &lt;= b\n# Greater than: a &gt; b\n# Greater than or equal to: a &gt;= b\n\nThese conditions can be used in several ways, most commonly in ‘if statements’ and loops.\n\n# if statement:\nif 5 &gt; 2:\n    print('Five is greater than two!')"
+  },
+  {
+    "objectID": "danl-210-python-basic.html#functions",
+    "href": "danl-210-python-basic.html#functions",
+    "title": "Python Basics",
+    "section": "",
+    "text": "A function is a block of code which only runs when it is called.\nYou can pass data, known as parameters, into a function.\nA function can return data as a result.\n\n# Defining a function:\ndef my_function():\n    print('Hello from a function')\n\n# Calling a function:\nmy_function()"
+  },
+  {
+    "objectID": "danl-210-python-basic.html#lists-and-dictionaries",
+    "href": "danl-210-python-basic.html#lists-and-dictionaries",
+    "title": "Python Basics",
+    "section": "",
+    "text": "A list is a collection which is ordered and changeable.\nA dictionary is a collection which is unordered, changeable and indexed.\n\n# List example:\nmy_list = ['apple', 'banana', 'cherry']\n\n# Dictionary example:\nmy_dict = {'name': 'John', 'age': 36}"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Josh Lefkowicz",
+    "section": "",
+    "text": "Sophomore pursuing a B.S. in Biology with a minor in Data Analytics at SUNY Geneseo."
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Josh Lefkowicz",
+    "section": "Education",
+    "text": "Education\nState University of New York at Geneseo | Geneseo, NY  B.S. in Data Analytics | Aug 2022 - May 2026  Minor in Economics"
+  },
+  {
+    "objectID": "index.html#experience",
+    "href": "index.html#experience",
+    "title": "Josh Lefkowicz",
+    "section": "Experience",
+    "text": "Experience\nOCSWCD | Invasive Species Removal Specialist & Erosion Control Aid | May 2024 - Present"
+  },
+  {
+    "objectID": "blog-listing.html",
+    "href": "blog-listing.html",
+    "title": "Insightful Analytics",
+    "section": "",
+    "text": "Order By\n      Default\n      \n        Title\n      \n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Author\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nBen & Jerry’s Ice Cream\n\n\n\n\n\nFeb 19, 2026\n\n\nJosh Lefkowicz\n\n6 min\n\n\n\n\n\n\n\n\n\n\n\nXmas Movie Analysis\n\n\n\n\n\nApr 9, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nSpotify Analysis\n\n\n\n\n\nMar 2, 2025\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nPython Basics\n\n\n\n\n\nFeb 14, 2025\n\n\nJosh Lefkowicz\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\n\n\n\n\n\n\n\nStarwars\n\n\n\n\n\nJan 22, 2025\n\n\nYour Name\n\n3 min\n\n\n\n\n\n\n\n\n\n\n\nPost With Code\n\n\n\n\n\nJan 22, 2025\n\n\nYOUR NAME\n\n1 min\n\n\n\n\nNo matching items"
+  }
+]
