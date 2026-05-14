@@ -1,5 +1,5 @@
 ---
-title: "Honey Production Dashboard"
+title: "American Honey Production Trends"
 format:
   html:
     css: honey-page.css
@@ -8,10 +8,8 @@ format:
 
 ::: {.page-nav}
 
-[Overview](danl310proj.html){.btn .btn-outline-primary}
-[Data-Notes](#Data Notes){.btn .btn-outline-primary}
+[Analysis](danl310proj.html){.btn .btn-outline-primary}
 [Dashboard](honey-dashboard.html){.btn .btn-primary}
-[Interpretation](#interpretation){.btn .btn-outline-primary}
 
 :::
 
@@ -37,6 +35,13 @@ This dataset is useful for examining changes in the American honey industry duri
 ```{r}
 library(tidyverse)
 honey_data <- read_csv("/Users/joshlefkowicz/Geneseo Courses/Data Analytics/Data 210/gitdocinclass/jlefkowiczdanl210pilot/danl210webpilot.github.io/honeyproduction.csv")
+
+rmarkdown::paged_table(honey_data,
+                       options = list(rows.print = 20,
+                                      cols.print = 6,
+                                      pages.print = 0,
+                                      paged.print = F
+                                      )) 
 ```
 
 
