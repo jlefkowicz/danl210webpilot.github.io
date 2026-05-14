@@ -73,11 +73,13 @@ Some states are excluded from the dataset in certain years to avoid disclosing d
 
 Due to rounding in the original USDA/NASS data, multiplying numcol by yieldpercol may not always exactly equal totalprod. Similarly, summing state-level values may not exactly match national-level production or value totals.
 
+# Shiny app
+An interactive map: https://019e257f-4413-e1b0-8930-b37c0463ce06.share.connect.posit.cloud/
+
 # Visualizations + Interpretations
 
 ```{r}
 #| echo: false
-library(tidyverse)
 library(maps)
 library(ggthemes)
 library(scales)
