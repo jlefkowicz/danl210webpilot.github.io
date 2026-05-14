@@ -8,11 +8,13 @@ website:
     # background: "#1c4982"
     pinned: true
     left:
+      - text: DANL-310 Project
+        href: danl310proj.qmd
       - text: Blog
         href: blog-listing.qmd
       - text: Python Basic
         href: danl-210-python-basic.ipynb
-      - text: Project
+      - text: Project (old)
         href: danl_proj_nba.ipynb
       - text: Python Data Analysis
         menu: 
@@ -20,6 +22,7 @@ website:
             href: pandas_basics.ipynb
           - text: Seaborn
             href: seaborn_basics.ipynb
+          
       
             
   page-footer: 
