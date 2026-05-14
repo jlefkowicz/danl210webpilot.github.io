@@ -225,62 +225,6 @@ p1
 ```
 
 **Interpretation:**  
-Honey production is not evenly distributed across the United States. The darker gold states represent places with higher average production across the full time period, showing that the national honey industry is concentrated in a smaller set of major producing states rather than being spread evenly across all regions.
-
----
-
-## National Honey Production Trends
-
-```{r}
-us_year <- honey_data %>%
-  group_by(year) %>%
-  summarize(
-    totalprod = sum(totalprod, na.rm = TRUE),
-    numcol = sum(numcol, na.rm = TRUE),
-    yieldpercol = mean(yieldpercol, na.rm = TRUE),
-    priceperlb = mean(priceperlb, na.rm = TRUE)
-  ) %>%
-  pivot_longer(
-    cols = c(totalprod, numcol, yieldpercol, priceperlb),
-    names_to = "metric",
-    values_to = "value"
-  ) %>%
-  mutate(
-    metric = factor(
-      metric,
-      levels = c("totalprod", "numcol", "yieldpercol", "priceperlb"),
-      labels = c("Total production (lbs)",
-                 "Number of colonies",
-                 "Yield per colony (lbs)",
-                 "Price per lb ($)")
-    )
-  )
-
-p1 <- ggplot(us_year, aes(x = year, y = value)) +
-  geom_point(size = 2.2, color = honey_gold) +
-  geom_line(linewidth = 1, color = honey_dark) +
-  geom_smooth(
-    show.legend = FALSE,
-    color = honey_gold,
-    fill = honey_light,
-    linewidth = 0.9
-  ) +
-  facet_wrap(~metric, scales = "free_y", ncol = 2) +
-  scale_x_continuous(breaks = seq(1998, 2012, by = 2)) +
-  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "U.S. Honey Production Trends, 1998–2012",
-    subtitle = "Production, colonies, yield, and price move in different directions over time",
-    caption = "Data: honeyproduction.csv"
-  ) +
-  theme_honey_light()
-
-p1
-```
-
-**Interpretation:**  
 This figure shows the broader national pattern behind the honey production story. Total production and yield per colony generally trend downward, while price per pound rises over time. That contrast suggests that honey became more valuable per pound as domestic production weakened, which may reflect increasing scarcity, higher production costs, or changing market conditions.
 
 ---
@@ -333,7 +277,7 @@ p2 <- ggplot(state_change_long,
   labs(
     x = NULL,
     y = "Total production (lbs)",
-    title = "States with the Largest Production Declines",
+    title = "Largest Production Declines",
     subtitle = "Comparing state production in 1998 and 2012",
     caption = "Data: honeyproduction.csv"
   ) +
@@ -429,7 +373,7 @@ p4 <- ggplot(
     x = NULL,
     y = NULL,
     fill = "Production",
-    title = "Production Intensity Across Major Honey-Producing States",
+    title = "Production Intensity Across Top Honey-Producers",
     subtitle = "Darker gold cells indicate higher total production",
     caption = "Data: honeyproduction.csv"
   ) +
@@ -482,7 +426,7 @@ p5 <- ggplot(area_df,
     x = NULL,
     y = "Total production (lbs)",
     fill = "State",
-    title = "Top 5 Producing States vs. All Other States Combined",
+    title = "Top 5 Producing States vs. All Other States",
     subtitle = "Stacked area chart showing how major producers contribute to national totals",
     caption = "Data: honeyproduction.csv"
   ) +

@@ -13,4 +13,298 @@ format:
 
 :::
 ---
+```{r}
+#| echo: false
+library(tidyverse)
+honey_data <- read_csv("/Users/joshlefkowicz/Geneseo Courses/Data Analytics/Data 210/gitdocinclass/jlefkowiczdanl210pilot/danl210webpilot.github.io/honeyproduction.csv")
+```
+
+```{r}
+df <- honey_data %>% 
+  select(state, year, totalprod)
+
+state_lookup <- tibble(
+  abb = state.abb,
+  region = str_to_lower(state.name)
+)
+
+df2 <- df %>%
+  mutate(state = str_trim(str_to_upper(state))) %>%
+  left_join(state_lookup, by = c("state" = "abb")) %>%
+  group_by(region) %>%
+  summarize(
+    avg_totalprod = mean(totalprod, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+us_states <- map_data("state")
+
+map_df <- us_states %>%
+  left_join(df2, by = "region")
+
+p_map <- ggplot(
+  map_df,
+  aes(x = long, y = lat, group = group, fill = avg_totalprod)
+) +
+  geom_polygon(color = "white", linewidth = 0.25) +
+  coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
+  scale_fill_gradient(
+    low = "#FFF8DC",
+    high = honey_gold,
+    name = "Average honey\nproduction",
+    na.value = "gray92",
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  labs(
+    title = "Average Honey Production by State",
+    subtitle = "Average total production across the full 1998–2012 timeframe",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_map() +
+  theme_honey_light() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+
+p_map
+```
+
+
+```{r}
+us_year <- honey_data %>%
+  group_by(year) %>%
+  summarize(
+    totalprod = sum(totalprod, na.rm = TRUE),
+    numcol = sum(numcol, na.rm = TRUE),
+    yieldpercol = mean(yieldpercol, na.rm = TRUE),
+    priceperlb = mean(priceperlb, na.rm = TRUE)
+  ) %>%
+  pivot_longer(
+    cols = c(totalprod, numcol, yieldpercol, priceperlb),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    metric = factor(
+      metric,
+      levels = c("totalprod", "numcol", "yieldpercol", "priceperlb"),
+      labels = c("Total production (lbs)",
+                 "Number of colonies",
+                 "Yield per colony (lbs)",
+                 "Price per lb ($)")
+    )
+  )
+
+p1 <- ggplot(us_year, aes(x = year, y = value)) +
+  geom_point(size = 2.2, color = honey_gold) +
+  geom_line(linewidth = 1, color = honey_dark) +
+  geom_smooth(
+    show.legend = FALSE,
+    color = honey_gold,
+    fill = honey_light,
+    linewidth = 0.9
+  ) +
+  facet_wrap(~metric, scales = "free_y", ncol = 2) +
+  scale_x_continuous(breaks = seq(1998, 2012, by = 2)) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  labs(
+    x = NULL,
+    y = NULL,
+    title = "U.S. Honey Production Trends, 1998–2012",
+    subtitle = "Production, colonies, yield, and price move in different directions over time",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_honey_light()
+
+p1
+```
+
+
+```{r}
+state_change <- honey_data %>%
+  filter(year %in% c(1998, 2012)) %>%
+  select(state, year, totalprod) %>%
+  pivot_wider(names_from = year, values_from = totalprod, names_prefix = "year_") %>%
+  mutate(change = year_2012 - year_1998) %>%
+  slice_min(change, n = 10) %>%
+  arrange(change)
+
+state_change_long <- state_change %>%
+  pivot_longer(
+    cols = c(year_1998, year_2012),
+    names_to = "year",
+    values_to = "totalprod"
+  ) %>%
+  mutate(
+    year = factor(year, levels = c("year_1998", "year_2012"),
+                  labels = c("1998", "2012")),
+    state = fct_inorder(state)
+  )
+
+p2 <- ggplot(state_change_long,
+             aes(x = year, y = totalprod, group = state)) +
+  geom_line(linewidth = 1.2, color = honey_gold) +
+  geom_point(size = 3.4, color = honey_dark) +
+  geom_text(
+    data = state_change_long %>% filter(year == "1998"),
+    aes(label = state),
+    hjust = 1.2,
+    size = 3.5,
+    color = honey_dark,
+    show.legend = FALSE
+  ) +
+  geom_text(
+    data = state_change_long %>% filter(year == "2012"),
+    aes(label = state),
+    hjust = -0.2,
+    size = 3.5,
+    color = honey_dark,
+    show.legend = FALSE
+  ) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  coord_cartesian(clip = "off") +
+  labs(
+    x = NULL,
+    y = "Total production (lbs)",
+    title = "Largest Production Declines",
+    subtitle = "Comparing state production in 1998 and 2012",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_honey_light() +
+  theme(
+    plot.margin = margin(10, 60, 10, 60),
+    legend.position = "none"
+  )
+
+p2
+```
+
+```{r}
+price_prod <- honey_data %>%
+  group_by(year) %>%
+  summarize(
+    totalprod = sum(totalprod, na.rm = TRUE),
+    priceperlb = mean(priceperlb, na.rm = TRUE)
+  )
+
+p3 <- ggplot(price_prod,
+             aes(x = totalprod, y = priceperlb, label = year)) +
+  geom_point(alpha = 0.85, size = 3.2, color = honey_gold) +
+  geom_text_repel(
+    size = 3.2,
+    box.padding = 0.35,
+    max.overlaps = 20,
+    color = honey_dark
+  ) +
+  geom_smooth(method = "lm", se = FALSE, color = honey_dark, linewidth = 1) +
+  scale_x_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_y_continuous(labels = dollar_format()) +
+  labs(
+    x = "U.S. total production",
+    y = "Average price per lb",
+    title = "Annual U.S. Production Compared with Honey Price",
+    subtitle = "Each point represents one year",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_honey_light()
+
+p3
+```
+
+
+```{r}
+top_states <- honey_data %>%
+  group_by(state) %>%
+  summarize(mean_totalprod = mean(totalprod, na.rm = TRUE)) %>%
+  slice_max(mean_totalprod, n = 15) %>%
+  pull(state)
+
+heat_df <- honey_data %>%
+  filter(state %in% top_states) %>%
+  group_by(state, year) %>%
+  summarize(totalprod = mean(totalprod, na.rm = TRUE), .groups = "drop")
+
+p4 <- ggplot(
+  heat_df,
+  aes(x = year,
+      y = fct_reorder(state, totalprod, .fun = mean),
+      fill = totalprod)
+) +
+  geom_tile(color = "white", linewidth = 0.45) +
+  scale_fill_gradient(
+    low = "#FFF8DC",
+    high = honey_gold,
+    labels = label_number(scale_cut = cut_short_scale())
+  ) +
+  guides(
+    fill = guide_colorbar(
+      barheight = unit(0.6, "cm"),
+      barwidth = unit(8, "cm")
+    )
+  ) +
+  scale_x_continuous(breaks = seq(1998, 2012, by = 2)) +
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = "Production",
+    title = "Production Intensity Across Top Honey-Producers",
+    subtitle = "Darker gold cells indicate higher total production",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_honey_light() +
+  theme(
+    panel.grid = element_blank(),
+    legend.position = "bottom"
+  )
+
+p4
+```
+```{r}
+top5_states <- honey_data %>%
+  group_by(state) %>%
+  summarize(mean_totalprod = mean(totalprod, na.rm = TRUE)) %>%
+  slice_max(mean_totalprod, n = 5) %>%
+  pull(state)
+
+area_df <- honey_data %>%
+  mutate(state_group = if_else(state %in% top5_states, state, "Other")) %>%
+  group_by(year, state_group) %>%
+  summarize(totalprod = sum(totalprod, na.rm = TRUE), .groups = "drop") %>%
+  mutate(state_group = fct_relevel(state_group, "Other", after = Inf))
+
+p5 <- ggplot(area_df,
+             aes(x = year, y = totalprod, fill = state_group)) +
+  geom_area(alpha = 0.92, color = "white", linewidth = 0.15) +
+  scale_y_continuous(labels = label_number(scale_cut = cut_short_scale())) +
+  scale_x_continuous(breaks = seq(1998, 2012, by = 2)) +
+  scale_fill_manual(
+    values = c(
+      "Other" = "#FFE9A3",
+      "CA" = "#8C510A",
+      "FL" = "#BF812D",
+      "ND" = "#D88400",
+      "SD" = "#F6C344",
+      "MT" = "#FFD966"
+    )
+  ) +
+  labs(
+    x = NULL,
+    y = "Total production (lbs)",
+    fill = "State",
+    title = "Top 5 Producing States vs. All Other States",
+    subtitle = "Stacked area chart showing how major producers contribute to national totals",
+    caption = "Data: honeyproduction.csv"
+  ) +
+  theme_honey_light() +
+  theme(
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+
+p5
+```
 
