@@ -1,0 +1,16 @@
+---
+title: "honey-dashboard"
+format:
+  dashboard:
+    css: honey-page.css
+    mainfont: "Fira Code"
+---
+::: {.page-nav}
+
+[Overview](danl310proj.html){.btn .btn-outline-primary}
+[Dashboard](honey-dashboard.html){.btn .btn-primary}
+[Interpretation](#interpretation){.btn .btn-outline-primary}
+
+:::
+---
+
